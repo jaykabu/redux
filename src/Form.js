@@ -41,6 +41,15 @@ const Form = () => {
         console.log(data);
     }
 
+    const onDelete = (id)=>{
+        setItems((oldData)=>{
+            return oldData.filter((arrelem , index)=>{
+                return index !== id;
+            })
+
+        })
+    }
+
     return (
         <>
             <div>
@@ -110,13 +119,14 @@ const Form = () => {
                     return <FTable
                         key={index}
                         id={index}
-                        firstname={val.firstname}
-                        lastname={val.lastname}
+                        firstname={val.fname}
+                        lastname={val.lname}
                         email={val.email}
-                        schoolname={val.schoolname}
-                        enrollmentno={val.enrollmentno}
+                        schoolname={val.schname}
+                        enrollmentno={val.erno}
                         address={val.address}
-                        mobileno={val.mobileno}
+                        mobileno={val.mobino}
+                        deleteItem={onDelete}
                     />
 
                 })}
