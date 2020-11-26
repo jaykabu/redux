@@ -1,9 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import FTable from './FTable';
 
 const Form = () => {
 
     const [data, setData] = useState({
+        id: null,
         fname: '',
         lname: '',
         email: '',
@@ -13,8 +14,11 @@ const Form = () => {
         mobino: ''
     })
     const [expand, setExpand] = useState(false);
-    const [items, setItems] = useState([])
-
+    const [items, setItems] = useState([]);
+    useEffect(() => {
+        setItems(items)
+        console.log('items::::', items)
+    },[items]);
 
     const addEvent = () => {
         setExpand(true)
@@ -23,7 +27,6 @@ const Form = () => {
     const btn = () => {
         setExpand(false);
     }
-
 
     const inputEvent = (event) => {
         const {name, value} = event.target
@@ -37,13 +40,22 @@ const Form = () => {
     }
 
     const inputSubmit = () => {
-        setItems((oldData) => {
-            return [...oldData, data]
-        })
+        if (data.id === null) {
+            const stuid = (items.length + 1);
+            const newdata = Object.assign(data, {id: stuid})
+            setItems((newdata) => {
+                return [...newdata, data]
+            })
+        } else {
+            pushToArray(items, data)
 
-
-        console.log(data);
+            function pushToArray(arr, obj) {
+                const index = arr.findIndex((e) => e.id === obj.id);
+                arr[index] = obj;
+            }
+        }
         setData({
+            id: null,
             fname: '',
             lname: '',
             email: '',
@@ -54,30 +66,31 @@ const Form = () => {
         })
     }
 
-    const onDelete = (id) => {
-        setItems((oldData) => {
-            return oldData.filter((arrelem, index) => {
-                return index !== id;
+    const onDelete = (data) => {
+        if(data) {
+        pushToArray(items, data)
+        function pushToArray(arr, obj) {
+            const index = arr.findIndex((e) => e.id === obj.id)
+            arr.splice(index , 1)
+            setItems((items) => {
+                return [...items]
             })
-
-        })
+        }
+        }
     }
 
-    const onUpdate = (id)=>{
-
+    const onUpdate = (data) => {
+        setData(data);
     }
-
-
-
     return (
-       <>
-           <div>
-               <button type="button" className="btn btn-primary add-button" onClick={addEvent}
-                       onDoubleClick={btn}>Add
-               </button>
-               <div>
-                   <h1 className='d-flex justify-content-center'>
-                       Student Form
+        <>
+            <div>
+                <button type="button" className="btn btn-primary add-button" onClick={addEvent}
+                        onDoubleClick={btn}>Add
+                </button>
+                <div>
+                    <h1 className='d-flex justify-content-center'>
+                        Student Form
                    </h1>
                    <hr/>
 
@@ -87,72 +100,58 @@ const Form = () => {
                        <div className='col-10 mx-auto'>
 
                            {expand ? <form>
-
                                <div>
                                    <input type="text" className="form-control mt-3" placeholder="First name"
                                           value={data.fname} name={"fname"} onChange={inputEvent} required/>
                                </div>
-
                                <div>
                                    <input type="text" className="form-control mt-3" placeholder="Last name"
                                           value={data.lname} name={"lname"} onChange={inputEvent} required/>
                                </div>
-
                                <div>
                                    <input type="email" className="form-control mt-3" placeholder="Email"
                                           value={data.email} name={"email"} onChange={inputEvent} required/>
                                </div>
-
                                <div>
                                    <input type="text" className="form-control mt-3" placeholder="School Name"
                                           value={data.schname} name={"schname"} onChange={inputEvent} required/>
                                </div>
-
                                <div>
                                    <input type="number" className="form-control mt-3" placeholder="Enrollment No"
                                           value={data.erno} name={"erno"} onChange={inputEvent} required/>
                                </div>
-
                                <div className="form-group mt-3">
-                                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Address"
+                                <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
+                                          placeholder="Address"
                                           value={data.address} name={"address"} onChange={inputEvent} required/>
                                </div>
-
                                <div>
                                    <input type="number" className="form-control mt-3" placeholder="Mobile No"
-                                          value={data.mobino} name={"mobino"} onChange={inputEvent} required/>
-                               </div>
-
-                               <button type="button" className="btn btn-primary mt-3" onClick={inputSubmit}>Submit
+                                          value={data.mobino} name={"mobino"} onChange={inputEvent} required/></div>
+                               <button type="button" className="btn btn-primary mt-3" onClick={inputSubmit}>
+                                   Submit
                                </button>
                            </form> : null}
-
                        </div>
                    </div>
                </div>
            </div>
-
+            {/*{items.length !== 0 &&*/}
            <div>
 
-               {/*<FTable />*/}
                {items.map((val, index) => {
                    return <FTable
-                      key={index}
-                      id={index}
-                      firstname={val.fname}
-                      lastname={val.lname}
-                      email={val.email}
-                      schoolname={val.schname}
-                      enrollmentno={val.erno}
-                      address={val.address}
-                      mobileno={val.mobino}
-                      deleteItem={onDelete}
-                      updateItem={onUpdate}
+                       key={index}
+                       data={val}
+                       deleteItem={onDelete}
+                       updateItem={onUpdate}
                    />
-
                })}
+
            </div>
-       </>
+            {/*}*/}
+
+        </>
     )
 };
 
