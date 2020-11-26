@@ -11,6 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.add-button{
-  margin-left: auto;
+.button{
+  width: 40px;
+  textAlign: center;
+  height: 40px;
+  background-color: chocolate;
 }

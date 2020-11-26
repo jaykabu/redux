@@ -1,4 +1,7 @@
 import React from 'react'
+import '../index.css';
+import AddIcon from '@material-ui/icons/Add';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const FTable = (props) => {
     const deleteNote = () => {
@@ -9,30 +12,35 @@ const FTable = (props) => {
         props.updateItem(props.data)
     }
 
+    const abc = {
+        width: "40px",
+        textAlign: 'center',
+        height: "40px",
+    }
+
     const stuData = props.data;
     return (
-        <>
-            {/*<div className="container-fluid nav_bg">*/}
-            {/*    <div className='row'>*/}
-            {/*        <div className='col-10 mx-auto'>*/}
+       <>
+           <tr>
+               <td>{stuData.id}</td>
+               <td>{stuData.fname}</td>
+               <td>{stuData.lname}</td>
+               <td>{stuData.email}</td>
+               <td>{stuData.schname}</td>
+               <td>{stuData.erno}</td>
+               <td>{stuData.address}</td>
+               <td>{stuData.mobino}</td>
+               <button type="button " className="btn btn-light mr-3 ml-2 button" style={abc} onClick={() => {updateNote()}}>
+                   <AddIcon/>
+               </button>
 
-                        <tr>
-                                <td>{stuData.id}</td>
-                                <td>{stuData.fname}</td>
-                                <td>{stuData.lname}</td>
-                                <td>{stuData.email}</td>
-                                <td>{stuData.schname}</td>
-                                <td>{stuData.erno}</td>
-                                <td>{stuData.address}</td>
-                                <td>{stuData.mobino}</td>
-                                <button type="button " className="btn btn-light mr-3" onClick={()=>{updateNote()}}>Update
-                                </button>
-                                <button type="button" className="btn btn-light mr-3" onClick={()=>{deleteNote()}}>Delete
-                                </button>
-                            </tr>
-           {/*         </div>*/}
-           {/*    </div>*/}
-           {/*</div>*/}
+               <button type="button" className="btn btn-light mr-3 button" style={abc} onClick={() => {
+                   deleteNote()
+               }}>
+                   <ClearIcon/>
+               </button>
+           </tr>
+
        </>
     )
 };
