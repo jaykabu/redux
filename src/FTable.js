@@ -7,6 +7,10 @@ const FTable = (props) => {
         props.deleteItem(props.id)
     }
 
+    const updateNote = ()=>{
+        props.updateItem(props.id)
+    }
+
     return (
        <>
            <div className="container-fluid nav_bg">
@@ -35,7 +39,7 @@ const FTable = (props) => {
                                <td>{props.enrollmentno}</td>
                                <td>{props.address}</td>
                                <td>{props.mobileno}</td>
-                               <button type="button " className="btn btn-light mr-3">Update</button>
+                               <button type="button " className="btn btn-light mr-3" onClick={updateNote}>Update</button>
                                <button type="button" className="btn btn-light mr-3" onClick={deleteNote}>Delete</button>
                            </tr>
                            </tbody>
